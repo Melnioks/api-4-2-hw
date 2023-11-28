@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "27419c16-f2df-4c04-b21d-24bfd27a2c6d",
+		"name": "API-4.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "3431373-27419c16-f2df-4c04-b21d-24bfd27a2c6d"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"item": [
+				{
+					"name": "Register new user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7e8e10f3-b461-4acd-8256-7e650e2d4e93",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "6a020bdf-dbc8-4373-97ba-7dcf93d3a05c",
+								"exec": [
+									"let requestBody = JSON.parse(pm.request.body)",
+									"pm.environment.set(\"username\", requestBody.login)",
+									"pm.environment.set(\"useremail\", requestBody.email)",
+									"",
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "e0afb1c3-0088-4f9c-8cd8-682103d20b56",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMTI3MTc3MywiYXV0aCI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MDExODUzNzN9.d9opqpkT09lzzvtzx9ylG0GnBv_wdfVrni-SlAhobj0LMDZHw17nLzOk_E7imGbQnmCUip6D0bYAjBoQw-2VEA"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"login\": \"{{$randomUserName}}\",\n  \"firstName\": \"oksana\",\n  \"lastName\": \"melnikova\",\n  \"email\": \"someemail+{{$randomInt}}@test.test\",\n  \"imageUrl\": \"string\",\n  \"activated\": true,\n  \"langKey\": \"en\",\n  \"createdBy\": \"oksana\",\n  \"createdDate\": \"2023-11-28T15:36:53.255Z\",\n  \"lastModifiedBy\": \"string\",\n  \"lastModifiedDate\": \"2023-11-28T15:36:53.255Z\",\n  \"authorities\": [\n    \"ROLE_STUDENT\"\n  ],\n  \"password\": \"soma_pass_123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Not possible to register existing user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "98034409-470b-4773-bb7a-e5d90fc325c1",
+								"exec": [
+									"pm.test(\"Status code is 409\", function () {",
+									"    pm.response.to.have.status(409);",
+									"});",
+									"",
+									"pm.test(\"Content-Length is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Length\");",
+									"});",
+									"",
+									"pm.test(\"Status code name has string\", function () {",
+									"    pm.response.to.have.status(\"Conflict\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "41e4bd16-6e3e-454f-831c-5c924c02ac9a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 0,\n  \"login\": \"{{username}}\",\n  \"firstName\": \"oksana\",\n  \"lastName\": \"melnikova\",\n  \"email\": \"{{useremail}}\",\n  \"imageUrl\": \"string\",\n  \"activated\": true,\n  \"langKey\": \"en\",\n  \"createdBy\": \"oksana\",\n  \"createdDate\": \"2023-11-28T15:36:53.255Z\",\n  \"lastModifiedBy\": \"string\",\n  \"lastModifiedDate\": \"2023-11-28T15:36:53.255Z\",\n  \"authorities\": [\n    \"ROLE_STUDENT\"\n  ],\n  \"password\": \"soma_pass_123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "9238d597-c663-404c-b403-2e2c1183403c"
+		},
+		{
+			"name": "Login",
+			"item": [],
+			"id": "dac116b6-d39c-4243-b0be-812017caf280"
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "Task creation",
+					"item": [
+						{
+							"name": "Authenticate user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f76f6fdd-d726-4cdd-b8f7-cda6537adedb",
+										"exec": [
+											"pm.environment.set(\"id_token\", pm.response.json().id_token)"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "29352a71-3d64-4ce0-a8c1-9412c0028704",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMTI5MjkxNCwiYXV0aCI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MDEyMDY1MTR9._wtgvTiZD6wQmaiZ7mQvFVM2xxupgaqxEsWc3WgRP0Vjcdy6yoxgzjd1uDqeN7IVuzQt0jfMwXmtga1fUC-VhQ"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\",\n  \"rememberMe\": true\n}"
+								},
+								"url": {
+									"raw": "https://sqlverifier-50d286d70656.herokuapp.com/api/authenticate",
+									"protocol": "https",
+									"host": [
+										"sqlverifier-50d286d70656",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"authenticate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create user task",
+							"id": "9f177eda-a403-4877-95f6-96aa228f6646",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMTI5MjkxNCwiYXV0aCI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MDEyMDY1MTR9._wtgvTiZD6wQmaiZ7mQvFVM2xxupgaqxEsWc3WgRP0Vjcdy6yoxgzjd1uDqeN7IVuzQt0jfMwXmtga1fUC-VhQ"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"isSolved\": false,\n    \"user\": {\n        \"id\": 2201,\n        \"login\": \"oksana_test_2\"\n    },\n    \"task\": {\n        \"id\": 33483,\n        \"text\": \"Задача\",\n        \"answer\": \"text\",\n        \"title\": \"text\"\n    }\n}"
+								},
+								"url": {
+									"raw": "https://sqlverifier-50d286d70656.herokuapp.com/api/user-tasks",
+									"protocol": "https",
+									"host": [
+										"sqlverifier-50d286d70656",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"user-tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete task",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "52593945-1228-4b2d-8b14-104647b43456",
+										"exec": [
+											"pm.sendRequest(",
+											"    {'url': \"https://sqlverifier-50d286d70656.herokuapp.com/api/user-tasks/34934\",",
+											"    header: {",
+											"        \"Authorization\": \"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMzc5ODgzOSwiYXV0aCI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MDEyMDY4Mzl9.rHv3ULwIIwoJQ57lo1GjOzf7A_v-s7ccHxwwhb0JOq_TS_29TyQ1vwfechqQLj2ondFcLxJOz1mr3024NCkrjw\"",
+											"    }}, ",
+											"    function (err, response) {",
+											"        pm.test(\"Task deleted\", function () {",
+											"            pm.expect(response.status).to.eql(\"Not Found\");",
+											"        });",
+											"});",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a86384b2-1582-46ed-ad27-410bf4863d83",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "accept",
+										"value": "*/*"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcwMTI5MjkxNCwiYXV0aCI6IlJPTEVfQURNSU4iLCJpYXQiOjE3MDEyMDY1MTR9._wtgvTiZD6wQmaiZ7mQvFVM2xxupgaqxEsWc3WgRP0Vjcdy6yoxgzjd1uDqeN7IVuzQt0jfMwXmtga1fUC-VhQ"
+									}
+								],
+								"url": {
+									"raw": "https://sqlverifier-50d286d70656.herokuapp.com/api/user-tasks/34934",
+									"protocol": "https",
+									"host": [
+										"sqlverifier-50d286d70656",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"api",
+										"user-tasks",
+										"34934"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "32702bac-507d-4b0a-9341-b179bf8d8be5",
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{id_token}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "07849449-cea4-457f-80fb-f456661a2c5e",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "692b1a40-8bff-472e-a998-534d4e6dda0c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				}
+			],
+			"id": "a6981594-739a-4f15-abc9-862b5fe3b2f6"
+		}
+	]
+}
